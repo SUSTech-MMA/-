@@ -1,0 +1,191 @@
+\section{微分方程}
+定义：含有函数及导数的关系式称为微分方程。
+\subsection{常微分方程}
+一元函数及其导数。
+$$\frac{dx}{dt}\,=\,f(x,t),\quad{}x(t_0)\,=\,x_0$$
+
+\subsection{偏微分方程}
+设$u$是$x,\,y$的二元函数，且满足
+$$A\frac{\partial^2u}{\partial{}x^2}\,+\,B\frac{\partial^2u}{\partial{}x\partial{}y}\,+\,C\frac{\partial^2u}{\partial{}y^2}\,=\,F(x,y,u,\frac{\partial u}{\partial x},\frac{\partial u}{\partial y})$$
+称为二阶常系数偏微分方程，记$D^2\,=\,B^2\,-\,4 A C$。
+\begin{equation*}
+\begin{cases}
+D<0 & \text{椭圆方程，拉普拉斯方程：$u_{xx}+u_{yy}=0$}\\
+D=0 & \text{抛物方程，热传导方程：$\frac{\partial u}{\partial t}=a\Delta u$},\, \\
+D>0 & \text{双曲方程，波动方程：$\frac{\partial^2u}{\partial t^2}=a^2\Delta u$},\,
+\end{cases}
+\end{equation*}
+
+\subsection{微分方程的求解}
+\begin{itemize}
+\item 理论上的分析
+    \begin{itemize}
+    \item 解是否存在，如果存在是否唯一，以及解的状态。
+    \end{itemize}
+\item 数值求解
+    \begin{itemize}
+    \item 常微分：欧拉格式，线性多步法，龙格库塔法等。
+    \item 偏微分呢：差分法，有限元方法，谱方法等。
+    \end{itemize}
+\item MATLAB使用
+    \begin{itemize}
+    \item 符号计算工具箱，dsolve，pde工具箱
+    \end{itemize}
+\item 微分方程的例子
+    \begin{itemize}
+    \item SARS传播
+    \end{itemize}
+\end{itemize}
+
+\subsection{SARS传播}
+\subsubsection{问题的重述}
+对SARS传播建立数学模型，为预测控制传染病的传播提供可靠足够的信息。
+\subsubsection{问题的分析}
+采用SIR模型（Susceptible Infected Recovered Model）：\\
+\phantom{may the force be with you}
+\xymatrix{
+\text{易感人群}\ar[d] & \text{感染者} \ar[d]\\
+\text{潜伏人群}\ar@/_/[r]\ar[ru] & \text{移除者}
+}
+
+\subsubsection{模型假设与符号说明}
+\begin{itemize}
+\item 模型假设
+    \begin{enumerate}
+    \item 不考虑人口的出生率死亡率
+    \item 假设平均潜伏期为6天（翻阅资料）
+    \item 假设潜伏期的病人不传播
+    \end{enumerate}
+\item 符号说明
+    \begin{itemize}
+    \item 见表\ref{tab:symintro}。
+    \end{itemize}
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+符号 & 说明 \\ \midrule
+t & SARS的传播时间 \\
+N & 某个疫区人口总数 \\
+S(t) & t时刻健康人数占的比例 \\
+E(t) & t时刻潜伏人数比例 \\
+I(t) & 感染人数比例 \\
+Q(t) & 移除者人数比例 \\
+$\lambda$(t) & 日接触率 \\
+b(t) & 每日新增确诊人数 \\
+v(t) & 每日新增疑似病例 \\
+d(t) & 每日新增死亡人数 \\
+f(t) & 疫病指数 \\
+g(t) & 预防措施力度 \\
+h(t) & 个体警惕性指标 \\
+w(t) & 防范意识 \\ \bottomrule
+\end{tabular}
+\caption{符号说明}\label{tab:symintro}
+\end{table}
+
+
+\subsubsection{模型的建立}
+初步确定各类人群的关系：\xymatrix{
+S \ar[r] & E \ar[r] & I \ar[r] & Q
+}\\[1cm]\par
+$t$时刻易感人群为$N\cdot{}S(t)$，$t+\Delta{}t$时刻易感人群为$N\cdot{}S(t+\Delta{}t)$。于是可以得到：
+$$N\left(S(t)-S(t+\Delta{}t)\right)\,=\,N\cdot{}I(t)\cdot{}\lambda{}(t)\cdot{}S(t)\cdot{}\Delta{}t$$
+令$\Delta{}t\rightarrow{}0$，则有：
+$$-\frac{dS}{dt}\,=\,\lambda{}(t)\cdot{}S(t)\cdot{}I(t)$$\\[1cm]\par
+
+同理可得$t$时刻潜伏人数关系式：
+$$N\left(E(t)-E(t+\Delta{}t)\right)\,=\,N\left(I(t)\cdot{}\lambda{}(t)\cdot{}S(t)-\epsilon{}\cdot{}E(t)\right)\Delta{}t$$
+令$\Delta{}t\rightarrow{}0$，则有：
+$$-\frac{dE}{dt}\,=\,I(t)\cdot{}\lambda{}(t)\cdot{}S(t)-\epsilon{}\cdot{}E(t)$$\\[1cm]\par
+
+同理可得$t$时刻死亡人数关系式：
+$$N\left(Q(t+\Delta{}t)-Q(t)\right)\,=\,\omega{}\cdot{}N\cdot{}I(t)\Delta{}t$$
+令$\Delta{}t\rightarrow{}0$，则有：
+$$\frac{dQ}{dt}\,=\,\omega{}\cdot{}I(t)$$\\[1cm]\par
+
+同理可得$t$时刻感染人数关系式：
+$$N\left(I(t+\Delta{}t)-I(t)\right)\,=\,N\left(\epsilon\cdot E(t)-\omega\cdot I(t)\right)\Delta{}t$$
+令$\Delta{}t\rightarrow{}0$，则有：
+$$\frac{dI}{dt}\,=\,\epsilon\cdot E(t)-\omega\cdot I(t)$$\\[1cm]\par
+
+通过查阅医学数据，取$\epsilon=\sfrac16$，$\omega=0.008$。\\[1cm]\par
+
+控前模型，$\lambda{}(t)=\lambda_0$，同时存在超级传染事件发生，故引入$\delta$函数：$$\delta(x-x_0)=
+\begin{cases}
+\infty & if\,x=x_0 \\
+0    & otherwise
+\end{cases}$$
+修正如上所得式子如下：
+$$-\frac{dS}{dt}\,=\,\lambda{}(t)\cdot{}S(t)\cdot{}I(t)+N\cdot{}\sum_{i=1}^m\alpha_i\cdot\Delta{}(t-t_i)$$
+$$-\frac{dE}{dt}\,=\,I(t)\cdot{}\lambda{}(t)\cdot{}S(t)+\epsilon{}\cdot{}E(t)+N\cdot{}\sum_{i=1}^m\alpha_i\cdot\Delta{}(t-t_i)$$
+由此根据微分方程及初始条件（$S(t_0)=S_0$等），代入数据即可得出结果。\\[1cm]\par
+
+控后模型，消灭超级传染事件，并且$\lambda$(t)有所变化，具体符号说明见表\ref{tab:symintro2}。
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+符号 & 说明 \\ \midrule
+b(t) & 每日新增确诊人数 \\
+v(t) & 每日新增疑似病例 \\
+d(t) & 每日新增死亡人数 \\
+f(t) & 疫病指数 \\
+g(t) & 预防措施力度 \\
+h(t) & 个体警惕性指标 \\
+w(t) & 防范意识 \\ \bottomrule
+\end{tabular}
+\caption{控后模型符号说明}\label{tab:symintro2}
+\end{table}
+
+可得控后模型的符号分析：\\
+\phantom{what is dead may never die}
+\xymatrix{
+f(t)\ar[r]\ar@/_/[rd] & g(t)\ar[r] & w(t)\ar[r] & \lambda(t) \\
+                  & h(t)\ar@/_/[ru]
+}\\[1cm]\par
+
+f(t)的刻画：\par
+f(t)与d(t)，b(t)与v(t)有关，所以构造线性组合（其中$q_1+q_2+q_3=1$）：
+$$f(t)\,=\,q_1\frac{d(t)}{max\lbrace{}d(t)\rbrace}+q_2\frac{b(t)}{max\lbrace{}b(t)\rbrace}+q_3\frac{v(t)}{max\lbrace{}v(t)\rbrace}$$
+根据数据可以画出离散图形，根据图像观测为韦伯分布：
+$$f(t)\,=\,\frac{m}{x_0}\cdot{}(t-v)^{m-1}\cdot{}\exp\Bigg(\dfrac{(t-v)^m}{x_0}\Bigg)$$
+通过参数估计（矩估计，点估计），可得$m=2.3499$，$\,v=-1.5578$，$\,x_0=14.3530$。\\[1cm]\par
+
+g(t)的刻画：\par
+由$g(t_0)=k_0$变成与$f(t)$相关的函数，通过图像猜测为高斯分布，于是得到函数关系：
+$$g(t)\,=\,k_0+k_1\cdot{}\Bigg(1-\exp(-\frac{\Big(\overline{f(t)}\Big)^2}{\sigma_1})\Bigg)$$
+同样根据参数估计可得$k_0=0.2$，$\overline{f(t_0)}=0.42$，$g(t_0)=0.7$。\\[1cm]\par
+
+h(t)的刻画：
+\begin{equation*}
+\begin{cases}
+f(t_0)=0 & h(t_0)=k_2 \\
+f(t_0)\rightarrow \infty & h(t_0)\rightarrow 1
+\end{cases}
+\end{equation*}
+于是可得$h(t)\,=\,k_2-k_3\cdot{}\exp(-f(t))$，通过如上关系式可得$k_2=1$，$k_3=0.8$。\\[1cm]\par
+
+$\lambda$(t)的刻画：
+\begin{equation*}
+\begin{cases}
+w(t_0)=0 & \lambda(t_0)=\lambda_0 \\
+w(t)\quad inc & \lambda(t)\quad dec
+\end{cases}
+\end{equation*}
+于是有：
+$$\lambda(t)\,=\,k_4\cdot\Bigg(1-\exp\Big(-\frac{(1-w(t))^2}{\sigma_2}\Big)\Bigg)$$
+
+\subsubsection{模型的求解}
+控后的模型方程组即为在控前模型上增加$\lambda$(t)的约束条件，求解即为常微分方程的求解，可以使用欧拉格式。
+
+\subsubsection{模型的分析}
+可继续从如下两个关系式，每日新增确诊人数与疑似病例中对控前控后的模型进行分析。
+\begin{equation*}
+\begin{cases}
+N\Big(I(t)-I(t-1)\Big) &=\quad b(t) \\
+N\Big(E(t)-E(t-1)\Big) &=\quad v(t)2
+\end{cases}
+\end{equation*}
