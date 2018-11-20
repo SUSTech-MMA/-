@@ -1,0 +1,149 @@
+\section{数模国赛2002B题（彩票中的数学）解析}
+\subsection{问题重述（简略）}
+	近年来“彩票飓风”席卷中华大地，巨额诱惑使越来越多的人加入到“彩民”的行列，目前流行的彩票主要有“传统型”和“乐透型”两种类型。
+	
+	“传统型”采用“10选6+1”方案：先从6组0--9号球中摇出6个基本号码，每组摇出一个，然后从0--4号球中摇出一个特别号码，构成中奖号码。投注者从0--9十个号码中任选6个基本号码（可重复），从0--4中选一个特别号码，构成一注，根据单注号码与中奖号码相符的个数多少及顺序确定中奖等级。以中奖号码“abcdef+g”为例说明中奖等级，如表\ref{chuantong}：
+	\begin{table}[H]\label{chuantong}
+		\centering
+		\caption{“传统型”彩票，X表示与摇出号码不符}
+		\begin{tabular}{|c|lc|c|}
+			\hline
+			\multirowcell{2}{中  奖\\等  级} & \multicolumn{3}{c|}{10选6+1（6+1/10）} \\
+			\cline{2-4}
+			{} & \multicolumn{1}{c}{基 本 号 码} & 特别号码 & 说  明 \\ \hline
+			一等奖	& abcdef & g & 选7中（6+1） \\ \hline
+			二等奖	& abcdef & {} & 选7中（6） \\ \hline
+			三等奖	& abcdeX Xbcdef & {} & 选7中（5） \\ \hline
+			四等奖	& abcdXX XbcdeX XXcdef & {} & 选7中（4） \\ \hline
+			五等奖	& abcXXX XbcdXX XXcdeX XXXdef & {} & 选7中（3） \\ \hline
+			六等奖	& abXXXX XbcXXX XXcdXX XXXdeX XXXXef & {} & 选7中（2） \\ \hline
+		\end{tabular}
+	\end{table}
+	“乐透型”有多种不同的形式，比如“33选7”的方案：先从01--33个号码球中一个一个地摇出7个基本号，再从剩余的26个号码球中摇出一个特别号码。投注者从01--33个号码中任选7个组成一注（不可重复），根据单注号码与中奖号码相符的个数多少确定相应的中奖等级，不考虑号码顺序。又如“36选6+1”的方案，先从01--36个号码球中一个一个地摇出6个基本号，再从剩下的30个号码球中摇出一个特别号码。从01--36个号码中任选7个组成一注（不可重复），根据单注号码与中奖号码相符的个数多少确定相应的中奖等级，不考虑号码顺序。这两种方案的中奖等级如表\ref{letou}。
+	\begin{table}[H]\label{letou}
+		\centering
+		\caption{“乐透型”彩票}
+		\begin{tabular}{|c|cc|c|cc|c|}
+			\hline
+			\multirowcell{2}{中 奖\\等 级} & \multicolumn{3}{c|}{33 选 7 （7/33）} & \multicolumn{3}{c|}{36 选 6+1 （6+1/36）} \\
+			\cline{2-7}
+			{} & 基 本 号 码 & 特别号码 & 说 明 & 基 本 号 码 & 特别号码 & 说 明 \\ \hline
+			一等奖 & ••••••• & & 选7中（7） & •••••• & $\star$ & 选7中（6+1） \\ \hline
+			二等奖 & ••••••$\circ$ & $\star$ & 选7中（6+1） & •••••• & & 选7中（6） \\ \hline
+			三等奖 & ••••••$\circ$ & & 选7中（6） & •••••$\circ$ &  & 选7中（5+1） \\ \hline
+			四等奖 & •••••$\circ\circ$ & $\star$ & 选7中（5+1） & •••••$\circ$ & & 选7中（5） \\ \hline
+			五等奖 & •••••$\circ\circ$ & & 选7中（5） & ••••$\circ\circ$ & $\star$ & 选7中（4+1） \\ \hline
+			六等奖 & ••••$\circ\circ\circ$ & $\star$ & 选7中（4+1） & ••••$\circ\circ$ & & 选7中（4） \\ \hline
+			七等奖 & ••••$\circ\circ\circ$ & & 选7中（4） & •••$\circ\circ\circ$ & $\star$ & 选7中（3+1） \\ \hline
+		\end{tabular}
+	\end{table}
+	注：•为选中的基本号码；$\star$为选中的特别号码；$\circ$为未选中的号码。
+	
+	以上两种类型的总奖金比例一般为销售总额的50\%，投注者单注金额为2元，单注若已得到高级别的奖就不再兼得低级别的奖。一、二、三等奖为高项奖，后面的为低项奖。低项奖数额固定，高项奖按比例分配，但一等奖单注保底金额60万元，封顶金额500万元，各高项奖额的计算方法为：\[
+	[(\text{当期销售总额} \times \text{总奖金比例}) - \text{低项奖总额}] \times \text{单项奖比例}
+	\]{
+	\renewcommand{\labelenumi}{(\theenumi)}
+	问题：
+	\begin{enumerate}
+		\item 根据这些方案的具体情况，综合分析各种奖项出现的可能性、奖项和奖金额的设置以及对彩民的吸引力等因素评价各方案的合理性。
+		\item 设计一种“更好”的方案及相应的算法，并据此给彩票管理部门提出建议。
+		\item 给报纸写一篇短文，供彩民参考。
+	\end{enumerate}
+	}
+    
+\subsection{模型假设}
+	\begin{enumerate}
+		\item 摇奖公正（各号码出现概率想等）
+		\item 彩民购买彩票是独立事件
+		\item 不重复考虑低项奖
+		\item 高级别奖金严格高于低级别奖金
+	\end{enumerate}
+
+\subsection{符号说明}
+注：红色部分是在建模过程中额外加入的
+	
+	\begin{tabular}{cc}
+		\toprule
+		符号 & 符号意义 \\
+		\midrule
+		$i$ & 中奖等级,$i = 1, 2, \cdots, 7$ （$i$具体取值范围与彩票规则有关的） \\
+		$x_i$ & 第$i$等奖奖金金额 \\
+		$p_i$ & 中第$i$等奖的概率 \\
+		$r_i$ & 高项奖中第$i$等奖奖金比例 \\
+		\color{red}
+		$\mu(x_i)$ & 彩民对第$i$等奖满意度 \\
+		\color{red}
+		$\lambda$ & 实力因子（考虑彩民经济情况） \\
+		\color{red}
+		$F$ & 综合性指标函数 \\
+		\color{red}
+		$s_0$ & 城市年平均收入 \\
+		\color{red}
+		$T$ & 平均工作年限 \\
+		\bottomrule
+	\end{tabular}
+    
+\subsection{模型预备（计算每种摇奖方式中奖概率）}
+	以传统型彩票为例。
+	
+	数字由来说明：$10 = C_10^1\quad 9 = C_9^1$
+	\begin{align*}
+	p_1 &= \frac{1}{5\times10^6} & p_2 &= \frac{1}{10^6} - \frac{1}{5\times10^6} = \frac{4}{5\times10^6} \longrightarrow \text{不重复考虑低项奖}\\
+	p_3 &= \frac{\overbrace{2\times9}^{\text{考虑X的取法，不重复计数}}}{10^6} & p_4 &= \frac{\overbrace{9\times10}^{\text{abcdXX}} + \overbrace{9\times9}^{\text{XbcdeX}} + \overbrace{10\times9}^{XXcdef}}{10^6}\\
+	p_5 &= \frac{\overbrace{9\times10\times10\times2}^{\text{1、4}} + \overbrace{9\times9\times10\times2}^{\text{2、3}}}{10^6} & p_6 &= \frac{\overbrace{9\times(10^3-1)\times2}^{\text{1、5}} + \overbrace{9\times9\times(10^2-1)\times2}^{\text{2、4，排除重复的六等奖}} + \overbrace{9\times9\times10^2}^{5} - \overbrace{9\times9}^{\text{排除1、5的重复计数}}}{10^6}\\
+	\text{总中奖率} = 0.03772
+	\end{align*}
+	计算时务必仔细
+
+\subsection{模型建立}
+{
+	\renewcommand{\labelenumii}{\Roman{enumii}.}
+	\renewcommand{\theenumiii}{\arabic{enumiii}}
+	\renewcommand{\labelenumiii}{\textcircled{\theenumiii}}
+	\begin{enumerate}
+		\item 对各方案综合性分析
+		\begin{enumerate}
+			\item 构造判别函数——需要查阅相关资料
+			\[F = \sum_{i=1}^7 p_i \mu{x_i} \quad \text{可以在分析中加入查阅文献获知的彩民心理因素}
+			\]
+			\item $\mu(x) = 1 - e^{-\frac{x}{\lambda}},\lambda>0$，彩民收入影响投入
+			计算$\lambda$：若城市年平均收入$s_0$已知，则$\mu(s_0 T) = 0.5$。
+			\item $x_i(i = 4,5,6,7)$固定，计算$x_1,x_2,x_3$：
+			设卖出$N$注彩票，奖金总额为$2N\times50\% = N$，则\[
+			j\text{等奖奖金总额} = Np_j x_j = \left(N - \sum_{i=4}^{7}p_i x_i\right)r_j
+			\]\[
+			\Longrightarrow x_j = \frac{(1-\sum_{i=4}^{7}p_i x_i)r_j}{p_j}
+			\]
+		\end{enumerate}
+		\item 综上得出：
+		\begin{gather*}
+		F = \sum_{i=1}^7 p_i \mu{x_i} \\
+		x_j = \frac{(1-\sum_{i=4}^{7}p_i x_i)r_j}{p_j} \\
+		\mu(x_i) = 1 - e^{-\frac{x_i}{\lambda}},\lambda > 0,i = 1,2,\cdots,7 \\
+		\text{（针对一个城市，$\lambda$一定）}
+		\end{gather*}
+		【开放性强，只要建模有合理性并能自圆其说即可】
+		\item 设计更好的方案（$n$选$m$）（$n>m$） \\
+		$r_j$：$j=1,2,3$为高项奖 \\
+		$x_j$：第$j$等奖奖金金额$(j = 1,2,\cdots,7)$ \\
+		\begin{enumerate}
+			\item 计算$p_i$，（与$n$，$m$相关）
+			\item 计算$x_j = \frac{(1-\sum_{i=4}^{7}p_i x_i)r_j}{p_j},j = 1,2,3$\\
+			待定参数：$n,m,r_j,x_i(i = 4,5,6,7)$
+			\item 求上述参数，使得$F = \sum_{i=1}^7 p_i \mu{x_i}$最大\\
+			约束条件：
+			\begin{enumerate}
+				\item $x_j = \frac{(1-\sum_{i=4}^{7}p_i x_i)r_j}{p_j},j = 1,2,4$
+				\item $\mu(x_i) = 1 - e^{-\frac{x_i}{\lambda}},\lambda > 0,i = 1,2,\cdots,7$
+				\item $r_1 + r_2 + r_3 = 1$
+				\item $0.5\leq r_j \leq 0.8$
+				\item $6\times10^5 \leq x_1 \leq 5\times10^6$
+				\item $p_i < p_{i+1}$
+				\item $a_i < \frac{x_i}{x_{i+1}} < b_i,i = 1,2,\cdots,7\longrightarrow a_i,b_i$具体数值由给定数据计算
+				\item $5\leq m \leq 7,29\leq n \leq 60$（具体参数可自设）
+				\item $r_j>0,x_i\ge 0,n,m\in\mathbf{Z}^*$
+			\end{enumerate}
+		\end{enumerate}
+	\end{enumerate}
+	}
+	模型的求解为\textbf{非线性规划问题}。

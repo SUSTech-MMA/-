@@ -1,0 +1,61 @@
+
+\usepackage{enumerate,amsmath,amssymb,fancyhdr,tikz,tikzpagenodes,xypic,booktabs,xfrac,graphicx,float,multirow,makecell,xcolor,pifont}
+\usepackage[all,pdf]{xy}
+\usetikzlibrary{shapes.geometric}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand\headrulewidth{0pt}
+\fancyhead[OC]{\begin{tikzpicture}[remember picture,overlay]
+\node[diamond,draw,font=\small\itshape] at (current page header area.south west) (dia) {\thepage};
+\draw (dia.3) -- (current page header area.south east|-dia.3);
+\draw (dia.357) -- ([xshift=-7pt]current page header area.south east|-dia.357);
+\end{tikzpicture}}
+\fancyhead[EC]{\begin{tikzpicture}[remember picture,overlay]
+\node[diamond,draw,font=\small\itshape] at (current page header area.south east) (dia) {\thepage};
+\draw (dia.177) -- (current page header area.south west|-dia.177);
+\draw (dia.183) -- ([xshift=7pt]current page header area.south west|-dia.183);
+\end{tikzpicture}}
+\fancyhead[OR]{\small\nouppercase\leftmark}
+\fancyhead[EL]{\small\nouppercase\rightmark}
+
+\title{数学建模课程笔记}
+\author{Iydon,张志炅}
+% depth of section
+\setcounter{tocdepth}{3}
+% example
+\usepackage{environ}
+\usepackage{xparse}
+\usetikzlibrary{shapes,decorations}
+\definecolor{seco}{RGB}{0,145,215}
+\newcommand{\newfancytheoremstyle}[5]{%
+    \tikzset{#1/.style={draw=#3, fill=#2,very thick,rectangle, rounded corners, inner sep=10pt, inner ysep=20pt}}
+    \tikzset{#1title/.style={fill=#3, text=#2}}
+    \expandafter\def\csname #1headstyle\endcsname{#4}
+    \expandafter\def\csname #1bodystyle\endcsname{#5}
+}
+\newfancytheoremstyle{fancythrm}{white!10}{seco}{\bfseries\sffamily}{\sffamily}
+\makeatletter
+\DeclareDocumentCommand{\newfancytheorem}{ O{\@empty} m m m O{fancythrm} }{%
+    % define the counter for the theorem
+    \ifx#1\@empty
+        \newcounter{#2}
+    \else
+        \newcounter{#2}[#1]
+        \numberwithin{#2}{#1}
+    \fi
+    %% define the "newthem" environment
+    \NewEnviron{#2}[1][{}]{%
+        \noindent\centering
+        \begin{tikzpicture}
+            \node[#5] (box){
+                \begin{minipage}{0.93\columnwidth}
+                    \csname #5bodystyle\endcsname \BODY~##1
+                \end{minipage}};
+            \node[#5title, rounded corners, right=10pt] at (box.north west){
+                {\csname #5headstyle\endcsname #3 \stepcounter{#2}\csname the#2\endcsname\; ##1}};
+            \node[#5title, rounded corners] at (box.east) {#4};
+        \end{tikzpicture}
+    }[\par\vspace{.5\baselineskip}]
+}
+\makeatother
+\newfancytheorem[section]{example}{例}{$\pi$}
